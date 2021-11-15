@@ -33,7 +33,11 @@ export default class SearchBox extends React.Component<any, { value: any }> {
           onChange={this.handleChange}
         />
         <IconButton
-          onClick={this.searchHandler}
+          onClick={(e)=>{
+            e.preventDefault();
+            this.searchHandler();
+          }
+          }
           type="submit"
           sx={{ p: "10px" }}
           aria-label="search"

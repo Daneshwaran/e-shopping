@@ -12,4 +12,14 @@ export default {
       res.json()
     );
   },
+
+  // Place order
+  placeOrder: function (products: any) {
+    console.log(products);
+    return axios
+      .post(`http://localhost:9042/orders/`, {
+        products: products,
+      })
+      .then((res) => console.log("order placed"));
+  },
 };

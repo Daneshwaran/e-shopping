@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cassandra from 'cassandra-driver';
 import cors from 'cors';
 import productsRoutes from './routes/products.js';
+import ordersRoutes from './routes/orders.js';
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
 app.use('/products', productsRoutes);
+app.use('/orders', ordersRoutes);
 
 const PORT = process.env.PORT || 9042;
 

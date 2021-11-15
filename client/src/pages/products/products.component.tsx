@@ -27,12 +27,13 @@ class Products extends React.Component<
     this.setState({ products: data });
   }
 
-  async searchHandler(value: any) {
+   searchHandler = async (value: any) => {
     let data = await ProductsService.getProductByTitle(value).then(
       (res: any) => {
-        return res.data.rows;
+        return res.rows;
       }
     );
+    this.setState({ products: data });
   }
 
   addItemtToCartHandler = (productId: any) => {
