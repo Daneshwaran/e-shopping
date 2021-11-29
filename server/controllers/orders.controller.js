@@ -19,44 +19,23 @@ export const getOrders = async (req, res) => {
 }
 
 export const insertOrder = async (req, res) => {
-    let localDate = new Date().toDateString();
-    console.log(req.body);
-    const queries = req.body.products.map(async (product) => {
-        return {
-            query: `INSERT INTO eshopping.orders (date, id, quantity) VALUES (?, ?, ?);`,
-            params: [localDate, product.id, product.quantity]
-        }
-    })
+    let localDate = new Date().toLocaleString();
 
-    // Promise-based call
-    client.batch(queries, { prepare: true })
-        .then(function (err, result) {
+    console.log(req.body);
+
+    const insertOrderQuery = `INSERT INTO eshopping.orders (date, orders, email) VALUES ('${localDate}', '${req.body.products}', 'daneshwaranm@gmail.com');`
+    try {
+        client.execute(insertOrderQuery, [], (err, result) => {
+            console.log(result);
             if (err) {
                 res.status(404).send({ msg: err })
             } else {
-                res.status(200).json({ done: 'result' });
+                res.status(200).json({ done: result });
             }
         })
-        .catch(function (error) {
-            // None of the changes have been applied
-            res.status(404).json({ message: error.message });
-            console.log(error);
-            console.log(req);
-        });
-        
-    // try {
-    //     client.execute(insertOrderQuery, [], (err, result) => {
-    //         console.log('result');
-    //         if (err) {
-    //             res.status(404).send({ msg: err })
-    //         } else {
-
-    //             res.status(200).json({ done: result });
-    //         }
-    //     })
-    // } catch (error) {
-    //     res.status(404).json({ message: error.message });
-    //     console.log(error);
-    //     console.log(req);
-    // }
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+        console.log(error);
+        console.log(req);
+    }
 }

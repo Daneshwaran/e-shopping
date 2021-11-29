@@ -21,24 +21,28 @@ export default class Cart extends React.Component<
   };
 
   checkOutHandler = () => {
-    let cartItemIds = [...new Set(this.state.cartItemIds)]
-    let order = cartItemIds.map((itemId,index,array)=>{
-      return {id:itemId,quantity:array.filter((id: any) => id === itemId)
-        .length}
-    })
-    productsServices.placeOrder(order)
+    let cartItemIds = [...new Set(this.state.cartItemIds)];
+
+    let order = cartItemIds.map((itemId, index, array) => {
+      return JSON.stringify({
+        id: itemId,
+        quantity: this.state.cartItemIds.filter((id: any) => id === itemId).length,
+      });
+    });
+
+    productsServices.placeOrder(JSON.stringify(order));
     this.setState({
       cartItems: [],
       cartItemIds: [],
     });
   };
 
-  clearAllHandler = () =>{
+  clearAllHandler = () => {
     this.setState({
       cartItems: [],
       cartItemIds: [],
     });
-  }
+  };
 
   removeProductFromCartHandler = (productId: any) => {
     this.props.removeProductFromCart(productId);
@@ -97,9 +101,15 @@ export default class Cart extends React.Component<
             })}
           </div>
         </div>
-        <Card className={classes.footer} >
-          <Button onClick={this.clearAllHandler} variant="outlined">Clear All</Button>
-          <Button onClick={this.checkOutHandler} variant="contained" disableElevation>
+        <Card className={classes.footer}>
+          <Button onClick={this.clearAllHandler} variant="outlined">
+            Clear All
+          </Button>
+          <Button
+            onClick={this.checkOutHandler}
+            variant="contained"
+            disableElevation
+          >
             Check out
           </Button>
         </Card>

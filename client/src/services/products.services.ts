@@ -13,9 +13,13 @@ export default {
     );
   },
 
+ // Gets all orders
+  getOrders: function () {
+    return axios.get("http://localhost:9042/orders");
+  },
+
   // Place order
   placeOrder: function (products: any) {
-    console.log(products);
     return axios
       .post(`http://localhost:9042/orders/`, {
         products: products,
